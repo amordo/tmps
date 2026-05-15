@@ -1,0 +1,24 @@
+Parallel Programming with Off-Heap Memory in Scala Native
+Background. The Scala programming language is known for excellent support for concurrent and distributed programming, for example, using futures or actors. Regular Scala code depends on garbage collection for automatic memory management. However, for certain performance-critical systems and applications the efficiency loss and increased latency of garbage collection is not acceptable [1].
+
+This project aims to explore the use of off-heap memory for parallel programs compiled using the Scala Native [2] compiler in order to avoid the use of garbage collection. The main hypothesis is that parallel programs processing significant amounts of data (for example, stream processing) can benefit substantially from the higher efficiency of off-heap memory.
+
+Highlight: This MSc thesis contributes to a research paper to be completed in Summer/Fall 2026, in collaboration with a PhD student (safety of off-heap memory zones via types). The project is also planned to be presented at a leading Scala conference.
+
+Project goals and plan:
+Design and implement a library for parallel collections (with an API similar to [3,4]) whose memory is allocated in off-heap zones. (Scala Native already provides support for off-heap zones.)
+Design and implement a suite of representative benchmark programs to evaluate the performance of off-heap parallel collections compared to on-heap parallel collections.
+Gather and curate a selection of datasets to use for the experimental evaluation. The datasets of the DEBS Grand Challenges [5] can serve as a starting point.
+
+Supervisor:
+Philipp Haller, Associate Professor, https://www.kth.se/profile/phaller/
+School of Electrical Engineering and Computer Science (EECS)
+
+References:
+[1]: Ionel Gog, Jana Giceva, Malte Schwarzkopf, Kapil Vaswani, Dimitrios Vytiniotis, Ganesan Ramalingam, Manuel Costa, Derek Gordon Murray, Steven Hand, Michael Isard. Broom: Sweeping Out Garbage Collection from Big Data Systems. HotOS 2015
+https://www.usenix.org/conference/hotos15/workshop-program/presentation/gog
+[2]: Scala Native. https://scala-native.org/en/latest/
+[3]: Scala parallel collections. https://docs.scala-lang.org/overviews/parallel-collections/overview.html
+[4]: Aleksandar Prokopec, Phil Bagwell, Tiark Rompf, Martin Odersky. A Generic Parallel Collection Framework. Euro-Par (2) 2011: 136-147
+https://doi.org/10.1007/978-3-642-23397-5_14
+[5]: DEBS Grand Challenges. https://debs.org/grand-challenges/
