@@ -431,8 +431,68 @@ warm-up phases will be excluded from reported measurements.
 \label{ch:evaluation}
 
 \section{Experimental Setup}
+Experiments were executed from the project root at
+`/Users/a.mordovskiy/scala_1105` on the author's macOS development machine.
+The benchmark binary was built with `sbt nativeLink` (see
+`build.sbt` in the project root). Profiling was performed using the
+`samply` sampler following the Scala Native profiling guide
+(https://scala-native.org/en/stable/user/profiling.html). In brief:
 
-% TODO: hardware, software versions, dataset descriptions
+\begin{itemize}
+  \item build the native binary: `sbt clean nativeLink`
+  \item run the benchmark binary (or start it via sbt)
+  \item run `samply` to collect samples while the benchmark executes and
+        export a flamegraph according to the `samply` instructions
+\end{itemize}
+
+The flamegraphs in Figures~\ref{fig:profiler_structs} and
+\ref{fig:profiler_optimized} were generated with this workflow.
+
+\section{Key Findings: Struct Tagging Overhead}
+\label{sec:structTagging}
+
+During initial profiling of off-heap parallel collections with \texttt{CStruct}-based
+node representations, we observed significant \gls{GC} activity despite allocating
+primary data structures in zones (off-heap).  Profiling revealed that over 50\% of
+runtime was spent in calls to \texttt{scalanative\_GC\_alloc\_small} and
+\texttt{Tag\$CStruct1\$.apply}, even when the heap-allocated payload was negligible.
+
+The root cause is the implicit materialization of \texttt{Tag} instances for
+\texttt{CStruct} types during zone allocation operations.  Each access to a struct
+field in a tight loop can trigger tag instantiation on the heap, negating
+off-heap allocation benefits.  Explicit tag materialization via
+\texttt{Tag.materializeCStruct1Tag[T]} only partially mitigates this overhead.
+
+This finding suggests that efficient off-heap parallel collections in Scala Native
+should prefer alternative representations (e.g., flat, untagged arrays or
+primitive-backed data structures) when possible, or employ specialized API designs
+that front-load tag instantiation outside performance-critical loops.
+These insights inform the library design choices discussed in Chapter~\ref{ch:design}.
+
+\begin{figure}[!ht]
+  \centering
+  \begin{minipage}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{figures/profiler_structs_overhead.png}
+    \caption{Profiler output with \texttt{CStruct}-based nodes: 25\% of runtime
+    spent in \texttt{Tag\$CStruct1\$.apply} heap allocations.}
+    \label{fig:profiler_structs}
+  \end{minipage}
+  \hfill
+  \begin{minipage}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{figures/profiler_baseline_optimized.png}
+    \caption{Profiler output with optimized representation (primitive-backed arrays):
+    negligible heap allocation overhead.}
+    \label{fig:profiler_optimized}
+  \end{minipage}
+\end{figure}
+
+Figure~\ref{fig:profiler_structs} and Figure~\ref{fig:profiler_optimized} contrast profiler
+outputs from two implementations. The struct-based version exhibits significant heap
+churn from implicit tag instantiation, while the optimized baseline achieves
+near-zero allocation overhead. This comparison provides empirical motivation for
+preferring flat data layouts in performance-critical allocation-free code paths.
 
 \section{Results}
 
