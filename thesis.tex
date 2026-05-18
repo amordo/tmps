@@ -342,6 +342,16 @@ high-performance parallel collection implementations where off-heap data structu
 avoid heap allocation entirely, provided memory captures are carefully scoped to the zone
 lifetime.
 
+Under the hood, Scala Native implements this mechanism via the \texttt{Zone} trait and its default implementation, \texttt{MemoryPoolZone}. To efficiently manage allocations, \texttt{MemoryPoolZone} relies on a global \texttt{MemoryPool}, which pre-allocates large segments of memory (chunks) from the system allocator and divides them into fixed-size pages (typically 4~KiB).
+
+When a program requests memory via a zone:
+\begin{itemize}
+    \item \textbf{Small allocations} (less than half a page size, i.e., $\leq 2$~KiB) are bumped sequentially within the current page. If the page runs out of space, a new page is claimed from the \texttt{MemoryPool}. This bump-pointer allocation strategy is extremely fast and avoids the overhead of traversing free lists or calling the system allocator.
+    \item \textbf{Large allocations} (greater than 2~KiB) bypass the page mechanism and are allocated directly via the system allocator (\texttt{malloc}). The zone retains pointers to these allocations in a dynamically resized array.
+\end{itemize}
+
+When the zone is closed (or exits its scope), all borrowed pages are released back to the \texttt{MemoryPool} at once via a linked-list operation, making them available for future zones without returning them to the operating system. Simultaneously, any large allocations tracked by the zone are explicitly freed using \texttt{free}. This architecture significantly minimizes system calls and amortizes allocation costs, rendering zone-based allocation highly suitable for performance-critical data processing.
+
 \section{Parallel Collections}
 
 The standard Scala parallel-collections library~\cite{prokopec_parallel_2011}
