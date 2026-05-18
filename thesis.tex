@@ -330,10 +330,17 @@ performance improvements.
 
 \section{Scala Native and Off-Heap Zones}
 
-Scala Native~\cite{scala_native} compiles Scala to native code via \gls{LLVM}.
-It exposes \texttt{Zone}-based off-heap allocation: memory is obtained from the
-operating system, bypassing the \gls{GC}, and is freed deterministically when the
-zone exits scope.
+Scala Native~\cite{scala_native} exposes \texttt{Zone}-based off-heap allocation: a semi-automatic memory management
+technique that binds allocations to a temporary scope in the program~\cite{scala_native_interop}. Zones
+automatically clean up memory as soon as execution exits the zone, making them the
+preferred way to allocate temporary unmanaged memory without invoking the garbage
+collector. Memory is obtained from the operating system, bypassing the \gls{GC} entirely,
+and is freed deterministically when the zone exits scope. Within a zone, the \texttt{alloc}
+function requests memory sufficient to contain a specified number of values of a given
+type, with memory zeroed out by default. As shown in the thesis project, zones enable
+high-performance parallel collection implementations where off-heap data structures can
+avoid heap allocation entirely, provided memory captures are carefully scoped to the zone
+lifetime.
 
 \section{Parallel Collections}
 
