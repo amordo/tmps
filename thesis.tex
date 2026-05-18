@@ -355,9 +355,18 @@ When the zone is closed (or exits its scope), all borrowed pages are released ba
 \section{Parallel Collections}
 
 The standard Scala parallel-collections library~\cite{prokopec_parallel_2011}
-provides high-level data-parallel abstractions (e.g., \texttt{par.map},
-\texttt{par.filter}) over \gls{JVM} heap memory.  Prokopec \etal describe the
-generic framework underlying these collections.
+lets a sequential collection be converted with \texttt{par} and then used
+with familiar operations such as \texttt{map}, \texttt{filter}, and
+\texttt{reduce} in parallel.  The collection is split into partitions, the
+operations are applied by worker threads, and the partial results are combined
+again.
+
+The abstraction is most useful for larger collections, since partitioning and
+recombining add overhead.  As with the Scala documentation, side effects and
+non-associative operations must be avoided: parallel traversals can otherwise
+become non-deterministic, and reductions such as subtraction may yield
+different results across runs.  Prokopec \etal describe the generic framework
+underlying these collections.
 
 \section{DEBS Grand Challenges}
 
@@ -433,7 +442,23 @@ warm-up phases will be excluded from reported measurements.
 
 \section{Architecture Overview}
 
-% TODO: describe library architecture
+Scala's parallel-collections library is built around two core abstractions,
+as described in the Scala documentation on the architecture of the parallel
+collections library~\cite{prokopec_parallel_2011}:
+\textit{splitters} and \textit{combiners}.  A splitter traverses a collection
+and recursively divides it into smaller, disjoint partitions that can be
+processed sequentially.  A combiner plays the role of a parallel builder: each
+worker thread accumulates partial results locally, and the partial combiners
+are merged again at the end of the computation.
+
+This design lets most parallel operations be implemented once in shared
+"template" traits and inherited by many concrete collection classes.  The
+library also mirrors the sequential collections hierarchy through common
+general traits, which makes it possible to switch between sequential and
+parallel views with \texttt{seq} and \texttt{par} while keeping the same
+overall API structure.  The result is a library that is both extensible and
+maintainable, because new collection types can reuse the existing parallel
+operations instead of reimplementing them.
 
 \section{Off-Heap Parallel Collections API}
 
