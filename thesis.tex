@@ -474,6 +474,52 @@ operations instead of reimplementing them.
 
 \section{Experimental Setup}
 
+\begin{lstlisting}[basicstyle=\ttfamily\small, frame=single, breaklines=true]
+[info] NativeConfig(
+[info]  - baseName:
+[info]  - clang:                   /usr/bin/clang
+[info]  - clangPP:                 /usr/bin/clang++
+[info]  - linkingOptions:          [-L/usr/local/lib, -L/opt/homebrew/lib]
+[info]  - compileOptions:          [-I/opt/homebrew/include, -Qunused-arguments]
+[info]  - cOptions:                []
+[info]  - cppOptions:              []
+[info]  - targetTriple:            None
+[info]  - GC:                      immix
+[info]  - LTO:                     none
+[info]  - mode:                    release-fast
+[info]  - buildTarget              Application
+[info]  - check:                   false
+[info]  - checkFatalWarnings:      false
+[info]  - checkFeatures            true
+[info]  - dump:                    false
+[info]  - sanitizer:               none
+[info]  - linkStubs:               false
+[info]  - optimize                 true
+[info]  - incrementalCompilation:  true
+[info]  - multithreading           detect
+[info]  - linktimeProperties:      []
+[info]  - embedResources:          false
+[info]  - resourceIncludePatterns: [**]
+[info]  - resourceExcludePatterns: []
+[info]  - serviceProviders:        []
+[info]  - optimizerConfig:
+[info]     - maxInlineDepth:    32 function
+[info]     - smallFunctionSize: 12 instructions
+[info]     - maxCallerSize:     2048 instructions
+[info]     - maxCalleeSize:     256 instructions
+[info]
+[info]  - semanticsConfig:         SemanticsConfig(
+[info]     - finalFields: Relaxed
+[info]     - strictExternCallSemantics: false
+[info]     )
+[info]  - sourceLevelDebuggingConfig: SourceLevelDebuggingConfig[Disabled]
+[info]     - customSourceRoots:       []
+[info]     - generateFunctionSourcePositions: false
+[info]     - generateLocalVariables:  false
+[info]     )
+[info] )
+\end{lstlisting}
+
 \section{Results}
 
 Table~\ref{tab:benchmark_results} summarises the final benchmark timings for
@@ -525,12 +571,27 @@ the three implementations across the tested input sizes.
   \end{minipage}
 \end{figure}
 
+To complement the comparison above, we also evaluated an allocation-heavy
+benchmark that performs 100\,000\,000 object allocations inside a single
+\texttt{Zone}.  The benchmark completed in 5020.96~ms, showing that the zone-based allocator has performance decline when memory is kept within one scoped region.
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=\textwidth]{figures/copilotwebbenchzone.png}
+  \caption{Flamegraph for the allocation-heavy single-\texttt{Zone} benchmark.}
+  \label{fig:flamegraph_copilotwebbenchzone}
+\end{figure}
+
 Across all tested sizes, the off-heap \texttt{Zone} implementation was the
 fastest variant by a wide margin. Relative to the regular implementation, Zone
 was between 10.9$\times$ and 16.1$\times$ faster, while it was between
 17.3$\times$ and 94.0$\times$ faster than SafeZone. The gap widened as $n$
 increased, which suggests that the off-heap approach scales substantially
 better for this workload than the heap-allocated alternatives.
+
+The single-zone allocation benchmark reinforces that result from a different
+angle: when every allocation is forced through one scoped off-heap region,
+the runtime lowers enough to avoid this pattern.
 
 \section{Discussion}
 
