@@ -497,6 +497,34 @@ the three implementations across the tested input sizes.
   \end{tabular}
 \end{table}
 
+\begin{figure}[!ht]
+  \centering
+  \begin{minipage}{0.9\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{figures/zone.png}
+    \caption{Flamegraph for the Zone benchmark.}
+    \label{fig:flamegraph_zone}
+  \end{minipage}
+
+  \vspace{1em}
+
+  \begin{minipage}{0.9\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{figures/regular.png}
+    \caption{Flamegraph for the regular benchmark.}
+    \label{fig:flamegraph_regular}
+  \end{minipage}
+
+  \vspace{1em}
+
+  \begin{minipage}{0.9\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{figures/safezone.png}
+    \caption{Flamegraph for the SafeZone benchmark.}
+    \label{fig:flamegraph_safezone}
+  \end{minipage}
+\end{figure}
+
 Across all tested sizes, the off-heap \texttt{Zone} implementation was the
 fastest variant by a wide margin. Relative to the regular implementation, Zone
 was between 10.9$\times$ and 16.1$\times$ faster, while it was between
