@@ -697,6 +697,90 @@ elements: 6.1, 3.1, 2.4, 3.5, 5.9 ms; 4000000 elements: 13.8, 5.7, 4.9, 4.4,
 28.4, 11.4, 13.5, 12.8, 12.8 ms; 12250000 elements: 56.4, 15.8, 21.6, 17.8,
 15.6 ms; 16000000 elements: 54.3, 24.3, 20.7, 22.6, 33.0 ms.
 
+\section{None}
+
+The none executables were run without command-line parameters. The raw outputs
+below are copied directly from the executables and are included here without
+averaging or other post-processing. Larger input sizes in several benchmarks
+terminate with a Scala Native GC allocation error; those failures are reported
+verbatim.
+
+\subsection{Aggregation}
+
+\texttt{Am.AggregationParallelBroomBenchmark}: 250000 elements: 21.8, 16.8,
+17.4, 15.7, 17.7 ms; 1000000 elements: 80.6, 81.2, 75.2, 74.6, 81.1 ms;
+2250000 elements: 197.7, 184.1, 195.7, 214.7, 224.5 ms; 4000000 elements:
+401.4, 482.9, 373.5, 338.7, 352.2 ms; 6250000 elements: 651.1, 774.7, 747.9,
+756.0, 1012.0 ms; 9000000 elements: [01:25:39.055] [Am.AggregationParallelBroomBenchmark:25286] [ScalaNative GC|Error] Failed to allocate or grow heap space, requested size=64.00MB, available memory=0.00MB, already allocated=9702.75MB, should preallocate=false. Consider setting GC_MAXIMUM_HEAP_SIZE env variable to limit maximal heap size.
+
+\texttt{Am.AggregationSequentialBroomBenchmark}: 250000 elements: 16.4, 15.4,
+14.5, 13.0, 14.3 ms; 1000000 elements: 65.5, 63.6, 64.2, 64.2, 64.6 ms;
+2250000 elements: 153.5, 153.1, 154.1, 149.0, 176.0 ms; 4000000 elements:
+310.1, 312.0, 279.5, 271.4, 281.2 ms; 6250000 elements: 517.7, 532.1, 484.6,
+481.7, 493.3 ms; 9000000 elements: [01:25:46.776] [Am.AggregationSequentialBroomBenchmark:25563] [ScalaNative GC|Error] Failed to allocate or grow heap space, requested size=64.00MB, available memory=0.00MB, already allocated=9011.75MB, should preallocate=false. Consider setting GC_MAXIMUM_HEAP_SIZE env variable to limit maximal heap size.
+
+\texttt{Am.AggregationZoneParBroomBenchmark}: 250000 elements: 26.9, 19.8,
+21.7, 26.3, 23.7 ms; 1000000 elements: 76.3, 69.4, 65.9, 73.9, 76.3 ms;
+2250000 elements: 154.4, 145.7, 141.0, 149.6, 144.3 ms; 4000000 elements:
+333.7, 344.3, 340.5, 374.0, 346.3 ms; 6250000 elements: 565.7, 648.5, 754.1,
+846.3, 581.4 ms; 9000000 elements: [01:25:56.241] [Am.AggregationZoneParBroomBenchmark:25755] [ScalaNative GC|Error] Failed to allocate or grow heap space, requested size=64.00MB, available memory=0.00MB, already allocated=9217.68MB, should preallocate=false. Consider setting GC_MAXIMUM_HEAP_SIZE env variable to limit maximal heap size.
+
+\texttt{Am.AggregationZoneSequentialBroomBenchmark}: 250000 elements: 0.7,
+0.5, 0.5, 0.5, 0.5 ms; 1000000 elements: 2.5, 1.8, 1.7, 1.8, 1.7 ms; 2250000
+elements: 3.9, 2.8, 2.9, 2.9, 2.8 ms; 4000000 elements: 6.5, 4.8, 5.0, 4.9,
+5.0 ms; 6250000 elements: 12.7, 9.0, 7.8, 8.1, 7.7 ms; 9000000 elements:
+[01:26:00.261] [Am.AggregationZoneSequentialBroomBenchmark:26078] [ScalaNative GC|Error] Failed to allocate or grow heap space, requested size=64.00MB, available memory=0.00MB, already allocated=734.56MB, should preallocate=false. Consider setting GC_MAXIMUM_HEAP_SIZE env variable to limit maximal heap size.
+
+\subsection{Multi-Epoch}
+
+\texttt{Am.MultiEpochParallelBroomBenchmark}: 250000 elements: 96.0, 94.5,
+95.2, 93.2, 92.7 ms; 1000000 elements: 468.6, 537.1, 516.2, 564.0, 497.3 ms;
+2250000 elements: 1242.6, 1174.0, 1306.6, 1178.3, 1346.0 ms; 4000000
+elements: 2345.7, 2371.6, 2416.7, 2439.4, 2516.7 ms; 6250000 elements:
+the run stopped before printing timings for this size.
+
+\texttt{Am.MultiEpochSequentialBroomBenchmark}: 250000 elements: 98.7, 91.0,
+89.0, 92.1, 94.4 ms; 1000000 elements: 388.5, 377.7, 365.5, 424.4, 514.8 ms;
+2250000 elements: 1085.7, 1145.4, 1164.0, 1093.5, 1083.5 ms; 4000000
+elements: 2096.3, 2064.8, 2144.2, 2557.5, 2090.1 ms; 6250000 elements: the run
+stopped before printing timings for this size.
+
+\texttt{Am.MultiEpochZoneParBroomBenchmark}: 250000 elements: 106.6, 99.8,
+141.0, 145.5, 120.8 ms; 1000000 elements: 525.8, 436.4, 486.2, 642.1, 607.2
+ms; 2250000 elements: 1220.8, 1407.5, 1246.0, 1413.9, 1693.5 ms; 4000000
+elements: the run stopped before printing timings for this size.
+
+\texttt{Am.MultiEpochZoneSequentialBroomBenchmark}: 250000 elements: 5.5, 4.6,
+4.1, 3.9, 3.9 ms; 1000000 elements: 12.8, 11.6, 11.1, 11.1, 11.1 ms; 2250000
+elements: 27.6, 25.4, 25.3, 25.2, 27.9 ms; 4000000 elements: 58.8, 47.9, 51.2,
+48.2, 49.6 ms; 6250000 elements: 79.7, 78.6, 71.0, 71.6, 73.0 ms; 9000000
+elements: [01:27:45.722] [Am.MultiEpochZoneSequentialBroomBenchmark:28367] [ScalaNative GC|Error] Failed to allocate or grow heap space, requested size=64.00MB, available memory=0.00MB, already allocated=734.62MB, should preallocate=false. Consider setting GC_MAXIMUM_HEAP_SIZE env variable to limit maximal heap size.
+
+\subsection{Single-Pass}
+
+\texttt{Am.SinglePassParallelBroomBenchmark}: 250000 elements: 5.4, 4.8, 4.7,
+8.3, 6.2 ms; 1000000 elements: 16.6, 16.1, 15.5, 17.5, 15.2 ms; 2250000
+elements: 36.7, 35.9, 34.8, 35.9, 32.2 ms; 4000000 elements: 54.1, 52.4, 54.5,
+52.9, 52.2 ms; 6250000 elements: 138.1, 142.5, 184.9, 163.7, 169.7 ms;
+9000000 elements: [01:27:49.546] [Am.SinglePassParallelBroomBenchmark:28513] [ScalaNative GC|Error] Failed to allocate or grow heap space, requested size=64.00MB, available memory=0.00MB, already allocated=7467.61MB, should preallocate=false. Consider setting GC_MAXIMUM_HEAP_SIZE env variable to limit maximal heap size.
+
+\texttt{Am.SinglePassSequentialBroomBenchmark}: 250000 elements: 9.6, 9.2,
+9.1, 9.1, 9.1 ms; 1000000 elements: 37.9, 37.2, 37.1, 37.0, 37.1 ms; 2250000
+elements: 84.3, 83.5, 83.2, 90.3, 94.7 ms; 4000000 elements: 158.7, 148.7,
+150.2, 146.9, 147.5 ms; 6250000 elements: [01:27:53.679] [Am.SinglePassSequentialBroomBenchmark:28660] [ScalaNative GC|Error] Failed to allocate or grow heap space, requested size=64.00MB, available memory=0.00MB, already allocated=6401.85MB, should preallocate=false. Consider setting GC_MAXIMUM_HEAP_SIZE env variable to limit maximal heap size.
+
+\texttt{Am.SinglePassZoneParBroomBenchmark}: 250000 elements: 10.8, 9.0, 7.5,
+6.1, 6.2 ms; 1000000 elements: 23.7, 24.1, 25.3, 25.4, 23.2 ms; 2250000
+elements: 50.0, 50.9, 50.2, 49.3, 47.6 ms; 4000000 elements: 90.3, 90.9,
+111.5, 99.3, 214.3 ms; 6250000 elements: 263.5, 256.2, 252.0, 269.0, 278.5
+ms; 9000000 elements: [01:27:58.697] [Am.SinglePassZoneParBroomBenchmark:28783] [ScalaNative GC|Error] Failed to allocate or grow heap space, requested size=64.00MB, available memory=0.00MB, already allocated=8440.96MB, should preallocate=false. Consider setting GC_MAXIMUM_HEAP_SIZE env variable to limit maximal heap size.
+
+\texttt{Am.SinglePassZoneSequentialBroomBenchmark}: 250000 elements: 0.4,
+0.3, 0.3, 0.3, 0.3 ms; 1000000 elements: 1.5, 1.5, 1.0, 1.0, 1.0 ms; 2250000
+elements: 5.7, 2.6, 2.3, 2.3, 2.3 ms; 4000000 elements: 5.7, 4.4, 4.2, 4.3,
+4.1 ms; 6250000 elements: 9.2, 6.3, 6.9, 6.3, 6.4 ms; 9000000 elements:
+[01:28:01.407] [Am.SinglePassZoneSequentialBroomBenchmark:28934] [ScalaNative GC|Error] Failed to allocate or grow heap space, requested size=64.00MB, available memory=0.00MB, already allocated=734.56MB, should preallocate=false. Consider setting GC_MAXIMUM_HEAP_SIZE env variable to limit maximal heap size.
+
 \section{Discussion}
 
 The measurements answer the research question in the affirmative for this
