@@ -77,78 +77,45 @@ An allocation-heavy benchmark that performs 100,000,000 object allocations insid
 
 ## Immix
 
-The Immix executables were run without command-line parameters. The raw outputs below are copied directly from the executables and are included without averaging.
+The Immix executables were run without command-line parameters. The raw outputs
+below are copied directly from the executables and are included here without
+averaging or other post-processing.
 
 ### Aggregation
 
-```
-Immix --- Aggregation benchmark timings (ms). Each row lists five repeated runs.
+```text
+Immix.AggregationParallelBroomBenchmark: 250000 elements: 39.5, 30.8, 36.0, 32.4, 32.4 ms; 1000000 elements: 268.3, 165.1, 183.0, 90.7, 155.3 ms; 2250000 elements: 221.3, 405.4, 214.9, 227.6, 208.0 ms; 4000000 elements: 496.1, 675.9, 658.6, 331.2, 376.2 ms; 6250000 elements: 602.0, 601.6, 520.5, 525.1, 554.7 ms; 9000000 elements: 1264.0, 978.3, 828.3, 752.6, 827.1 ms; 12250000 elements: 2010.4, 2069.6, 1778.2, 1404.4, 1436.7 ms; 16000000 elements: 3779.3, 3437.1, 3753.6, 3799.7, 3495.4 ms.
 
-Immix.AggregationParallelBroomBenchmark & 250000   & 39.5   & 30.8   & 36.0   & 32.4   & 32.4 \
-                                          & 1000000  & 268.3  & 165.1  & 183.0  & 90.7   & 155.3 \
-                                          & 2250000  & 221.3  & 405.4  & 214.9  & 227.6  & 208.0 \
-                                          & 4000000  & 496.1  & 675.9  & 658.6  & 331.2  & 376.2 \
-                                          & 6250000  & 602.0  & 601.6  & 520.5  & 525.1  & 554.7 \
-                                          & 9000000  & 1264.0 & 978.3  & 828.3  & 752.6  & 827.1 \
-                                          & 12250000 & 2010.4 & 2069.6 & 1778.2 & 1404.4 & 1436.7 \
-                                          & 16000000 & 3779.3 & 3437.1 & 3753.6 & 3799.7 & 3495.4 \
+Immix.AggregationSequentialBroomBenchmark: 250000 elements: 23.3, 18.4, 16.0, 19.4, 14.8 ms; 1000000 elements: 138.0, 95.6, 100.1, 97.9, 90.1 ms; 2250000 elements: 290.7, 219.1, 258.5, 211.0, 255.1 ms; 4000000 elements: 403.1, 591.8, 320.8, 416.6, 352.4 ms; 6250000 elements: 905.0, 629.6, 626.1, 802.0, 501.7 ms; 9000000 elements: 1057.0, 766.8, 769.4, 885.7, 751.5 ms; 12250000 elements: 1107.8, 1465.7, 1005.5, 1043.6, 1472.2 ms; 16000000 elements: 1591.9, 2071.7, 1737.4, 1504.5, 1447.1 ms.
 
-Immix.AggregationSequentialBroomBenchmark & 250000   & 23.3   & 18.4   & 16.0   & 19.4   & 14.8 \
-                                           & 1000000  & 138.0  & 95.6   & 100.1  & 97.9   & 90.1 \
-                                           & 2250000  & 290.7  & 219.1  & 258.5  & 211.0  & 255.1 \
-                                           & 4000000  & 403.1  & 591.8  & 320.8  & 416.6  & 352.4 \
-                                           & 6250000  & 905.0  & 629.6  & 626.1  & 802.0  & 501.7 \
-                                           & 9000000  & 1057.0 & 766.8  & 769.4  & 885.7  & 751.5 \
-                                           & 12250000 & 1107.8 & 1465.7 & 1005.5 & 1043.6 & 1472.2 \
-                                           & 16000000 & 1591.9 & 2071.7 & 1737.4 & 1504.5 & 1447.1 \
+Immix.AggregationZoneParBroomBenchmark: 250000 elements: 43.7, 26.5, 21.4, 20.5, 22.5 ms; 1000000 elements: 187.7, 116.5, 122.5, 160.1, 116.4 ms; 2250000 elements: 203.5, 185.7, 209.9, 211.7, 243.3 ms; 4000000 elements: 722.5, 541.8, 614.8, 566.9, 372.7 ms; 6250000 elements: 1210.4, 1298.2, 723.2, 903.7, 793.2 ms; 9000000 elements: 1145.6, 1478.8, 2037.5, 1354.4, 1477.7 ms; 12250000 elements: 3506.6, 2025.0, 2649.2, 2136.5, 2725.8 ms; 16000000 elements: 4526.8, 5102.9, 3226.7, 2765.0, 3962.3 ms.
 
-Immix.AggregationZoneParBroomBenchmark & 250000   & 43.7   & 26.5   & 21.4   & 20.5   & 22.5 \
-                                        & 1000000  & 187.7  & 116.5  & 122.5  & 160.1  & 116.4 \
-                                        & 2250000  & 203.5  & 185.7  & 209.9  & 211.7  & 243.3 \
-                                        & 4000000  & 722.5  & 541.8  & 614.8  & 566.9  & 372.7 \
-                                        & 6250000  & 1210.4 & 1298.2 & 723.2  & 903.7  & 793.2 \
-                                        & 9000000  & 1145.6 & 1478.8 & 2037.5 & 1354.4 & 1477.7 \
-                                        & 12250000 & 3506.6 & 2025.0 & 2649.2 & 2136.5 & 2725.8 \
-                                        & 16000000 & 4526.8 & 5102.9 & 3226.7 & 2765.0 & 3962.3 \
-
-Immix.AggregationZoneSequentialBroomBenchmark & 250000   & 0.4    & 0.3    & 0.3    & 0.3    & 0.4 \
-                                              & 1000000  & 1.6    & 1.2    & 1.2    & 1.4    & 1.2 \
-                                              & 2250000  & 3.8    & 2.8    & 2.7    & 3.2    & 2.7 \
-                                              & 4000000  & 6.7    & 4.9    & 5.0    & 4.9    & 5.0 \
-                                              & 6250000  & 10.8   & 8.0    & 7.6    & 8.3    & 7.5 \
-                                              & 9000000  & 14.5   & 11.2   & 10.9   & 11.9   & 11.4 \
-                                              & 12250000 & 20.6   & 15.5   & 17.0   & 19.3   & 17.4 \
-                                              & 16000000 & 27.3   & 19.7   & 19.4   & 21.0   & 20.8 \
+Immix.AggregationZoneSequentialBroomBenchmark: 250000 elements: 0.4, 0.3, 0.3, 0.3, 0.4 ms; 1000000 elements: 1.6, 1.2, 1.2, 1.4, 1.2 ms; 2250000 elements: 3.8, 2.8, 2.7, 3.2, 2.7 ms; 4000000 elements: 6.7, 4.9, 5.0, 4.9, 5.0 ms; 6250000 elements: 10.8, 8.0, 7.6, 8.3, 7.5 ms; 9000000 elements: 14.5, 11.2, 10.9, 11.9, 11.4 ms; 12250000 elements: 20.6, 15.5, 17.0, 19.3, 17.4 ms; 16000000 elements: 27.3, 19.7, 19.4, 21.0, 20.8 ms.
 ```
 
 ### Multi-Epoch
 
-```
-Immix.MultiEpochParallelBroomBenchmark: 250000 elements: 460.4, 547.7, 399.8, 713.6, 676.3 ms; 1000000 elements: 2301.9, 1823.4, 1479.4, 1739.8, 1204.4 ms; ...
+```text
+Immix.MultiEpochParallelBroomBenchmark: 250000 elements: 460.4, 547.7, 399.8, 713.6, 676.3 ms; 1000000 elements: 2301.9, 1823.4, 1479.4, 1739.8, 1204.4 ms; 2250000 elements: 4384.5, 5613.5, 6345.8, 5222.4, 6145.1 ms; 4000000 elements: 10086.6, 12357.1, 11692.2, 12105.5, 12041.8 ms; 6250000 elements: 20401.8, 20514.8, 25495.0, 11246.5, 10809.4 ms; 9000000 elements: 20975.6, 24268.6, 24512.9, 22622.8, 25590.5 ms; 12250000 elements: 28177.8, 31939.1, 33125.8, 40862.3, 38653.5 ms; 16000000 elements: 53465.5, 51212.0, 29276.6, 29018.6, 30010.9 ms.
 
-Immix.MultiEpochSequentialBroomBenchmark: 250000 elements: 148.1, 172.4, 133.3, 146.5, 166.9 ms; 1000000 elements: 689.3, 493.3, 494.7, 612.0, 511.2 ms; ...
+Immix.MultiEpochSequentialBroomBenchmark: 250000 elements: 148.1, 172.4, 133.3, 146.5, 166.9 ms; 1000000 elements: 689.3, 493.3, 494.7, 612.0, 511.2 ms; 2250000 elements: 1332.7, 1445.5, 1209.2, 1213.6, 1195.7 ms; 4000000 elements: 1972.0, 1886.7, 2268.7, 1897.9, 1964.5 ms; 6250000 elements: 4502.9, 4869.5, 4035.4, 5601.5, 4999.2 ms; 9000000 elements: 8140.5, 6542.6, 4233.7, 4758.7, 6168.6 ms; 12250000 elements: 10676.3, 7140.9, 9530.2, 11628.4, 12499.1 ms; 16000000 elements: 16687.3, 17542.0, 18130.7, 20308.0, 18410.0 ms.
 
-Immix.MultiEpochZoneParBroomBenchmark: 250000 elements: 374.7, 253.8, 272.5, 334.3, 418.9 ms; 1000000 elements: 1104.8, 1206.7, 1153.7, 946.8, 1076.0 ms; ...
+Immix.MultiEpochZoneParBroomBenchmark: 250000 elements: 374.7, 253.8, 272.5, 334.3, 418.9 ms; 1000000 elements: 1104.8, 1206.7, 1153.7, 946.8, 1076.0 ms; 2250000 elements: 3019.9, 2984.0, 3187.5, 3479.0, 3728.9 ms; 4000000 elements: 11873.2, 9319.6, 6098.7, 6497.3, 5845.8 ms.
 
-Immix.MultiEpochZoneSequentialBroomBenchmark: 250000 elements: 5.1, 3.3, 5.8, 4.3, 4.0 ms; 1000000 elements: 17.1, 14.0, 21.7, 17.2, 19.8 ms; ...
+Immix.MultiEpochZoneSequentialBroomBenchmark: 250000 elements: 5.1, 3.3, 5.8, 4.3, 4.0 ms; 1000000 elements: 17.1, 14.0, 21.7, 17.2, 19.8 ms; 2250000 elements: 104.2, 36.0, 33.2, 34.2, 140.7 ms; 4000000 elements: 391.7, 450.4, 118.0, 177.2, 69.7 ms; 6250000 elements: 246.6, 93.2, 103.7, 104.8, 195.3 ms; 9000000 elements: 382.9, 131.6, 189.5, 153.6, 143.1 ms; 12250000 elements: 205.7, 185.5, 876.5, 598.4, 427.9 ms; 16000000 elements: 334.2, 386.0, 322.5, 366.1, 275.4 ms.
 ```
 
 ### Single-Pass
 
+```text
+Immix.SinglePassParallelBroomBenchmark: 250000 elements: 18.8, 8.0, 14.2, 7.6, 11.0 ms; 1000000 elements: 51.2, 47.2, 53.2, 34.5, 57.1 ms; 2250000 elements: 102.1, 127.1, 119.8, 147.1, 104.7 ms; 4000000 elements: 149.8, 119.0, 240.6, 212.4, 127.1 ms; 6250000 elements: 326.9, 756.1, 380.2, 200.3, 433.7 ms; 9000000 elements: 733.2, 495.7, 708.6, 516.4, 807.9 ms; 12250000 elements: 1136.5, 1480.0, 1399.9, 1214.3, 897.3 ms; 16000000 elements: 1630.8, 2232.0, 2140.9, 1997.8, 2306.4 ms.
+
+Immix.SinglePassSequentialBroomBenchmark: 250000 elements: 13.9, 17.7, 13.8, 14.4, 16.0 ms; 1000000 elements: 57.4, 65.9, 80.1, 55.2, 56.2 ms; 2250000 elements: 125.5, 232.8, 158.4, 123.4, 128.4 ms; 4000000 elements: 257.5, 238.3, 213.5, 236.9, 271.8 ms; 6250000 elements: 473.0, 498.3, 336.3, 388.7, 396.3 ms; 9000000 elements: 552.5, 453.5, 616.3, 657.1, 522.1 ms; 12250000 elements: 724.2, 751.6, 916.2, 824.7, 764.5 ms; 16000000 elements: 956.9, 1209.0, 1066.6, 1638.2, 1525.5 ms.
+
+Immix.SinglePassZoneParBroomBenchmark: 250000 elements: 34.4, 28.9, 18.7, 48.7, 78.3 ms; 1000000 elements: 127.2, 119.7, 97.6, 88.8, 77.5 ms; 2250000 elements: 196.7, 276.7, 144.5, 137.4, 210.2 ms; 4000000 elements: 778.4, 401.8, 662.6, 292.6, 517.7 ms; 6250000 elements: 850.9, 571.2, 759.9, 825.0, 641.4 ms; 9000000 elements: 1502.8, 1928.5, 1253.2, 1710.3, 1189.8 ms; 12250000 elements: 1927.1, 2156.2, 2083.9, 2274.1, 2726.9 ms; 16000000 elements: 2612.7, 3076.0, 3354.4, 2842.0, 3363.0 ms.
+
+Immix.SinglePassZoneSequentialBroomBenchmark: 250000 elements: 0.6, 0.3, 0.3, 0.3, 0.3 ms; 1000000 elements: 2.9, 1.3, 1.3, 1.5, 1.0 ms; 2250000 elements: 6.1, 3.1, 2.4, 3.5, 5.9 ms; 4000000 elements: 13.8, 5.7, 4.9, 4.4, 5.4 ms; 6250000 elements: 19.9, 6.9, 11.7, 7.1, 8.2 ms; 9000000 elements: 28.4, 11.4, 13.5, 12.8, 12.8 ms; 12250000 elements: 56.4, 15.8, 21.6, 17.8, 15.6 ms; 16000000 elements: 54.3, 24.3, 20.7, 22.6, 33.0 ms.
 ```
-Immix.SinglePassParallelBroomBenchmark: 250000 elements: 18.8, 8.0, 14.2, 7.6, 11.0 ms; 1000000 elements: 51.2, 47.2, 53.2, 34.5, 57.1 ms; ...
-
-Immix.SinglePassSequentialBroomBenchmark: 250000 elements: 13.9, 17.7, 13.8, 14.4, 16.0 ms; 1000000 elements: 57.4, 65.9, 80.1, 55.2, 56.2 ms; ...
-
-Immix.SinglePassZoneParBroomBenchmark: 250000 elements: 34.4, 28.9, 18.7, 48.7, 78.3 ms; 1000000 elements: 127.2, 119.7, 97.6, 88.8, 77.5 ms; ...
-
-Immix.SinglePassZoneSequentialBroomBenchmark: 250000 elements: 0.6, 0.3, 0.3, 0.3, 0.3 ms; 1000000 elements: 2.9, 1.3, 1.3, 1.5, 1.0 ms; ...
-```
-
-## Notes
-
-- Figures are referenced by filename under `figures/`.
-- Detailed raw outputs and long tables are preserved in fenced blocks above.
 
 ## None
 
