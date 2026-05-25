@@ -77,6 +77,91 @@ An allocation-heavy benchmark that performs 100,000,000 object allocations insid
 
 ## Immix
 
+ZONE SEQUENTIAL beats.
+Others need to be re-evaluated, from manual run Parallel on 16_000_000 elements is not much worse than Seq:
+```
+def pipelineParallel(input: Array[Long]): Long = {
+    input.par
+        .map(x => x * 3 + 17)
+        .filter(x => x % 7 != 0)
+        .sum
+  }
+```
+```
+ % samply record ./immix/Am.SinglePassSequentialBroomBenchmark 16000000
+=== Broom-Inspired Single-Pass Pipeline Benchmark ===
+  warmup    : 0 runs
+  measured  : 5 runs
+
+  data size : 16000000 elements
+
+Sequential
+    runs:
+       1:849.1 ms
+       2:811.3 ms
+       3:783.7 ms
+       4:715.8 ms
+       5:685.1 ms
+All tasks terminated.
+Local server listening at http://127.0.0.1:3004
+Press Ctrl+C to stop.
+```
+Filter, for example, takes 34%
+![Filter, for example, takes 34%](figures/singlepassseq.png)
+```
+% samply record ./immix/Am.SinglePassParallelBroomBenchmark 16000000
+=== Broom-Inspired Single-Pass Pipeline Benchmark ===
+  warmup    : 0 runs
+  measured  : 5 runs
+
+  data size : 16000000 elements
+
+Parallel
+    runs:
+       1:1454.8 ms
+       2:560.3 ms
+       3:393.9 ms
+       4:376.6 ms
+       5:1397.4 ms
+Stopping profile.
+Local server listening at http://127.0.0.1:3004
+Press Ctrl+C to stop.
+```
+ForkJoinTask 15%
+![ForkJoinTask 15%](figures/forkjoin.png)
+```
+ % ./immix/Am.SinglePassZoneSequentialBroomBenchmark 16000000
+=== Broom-Inspired Single-Pass Pipeline Benchmark (Zone Sequential) ===
+  warmup    : 0 runs
+  measured  : 5 runs
+
+  data size : 16000000 elements
+
+Zone Seq
+    runs:
+       1:52.8 ms
+       2:15.5 ms
+       3:15.6 ms
+       4:15.5 ms
+       5:15.4 ms
+```
+```
+% ./immix/Am.SinglePassZoneParBroomBenchmark 16000000
+=== Broom-Inspired Single-Pass Pipeline Benchmark ===
+  warmup    : 0 runs
+  measured  : 5 runs
+
+  data size : 16000000 elements
+
+Zone Par
+    runs:
+       1:1354.1 ms
+       2:1064.2 ms
+       3:963.6 ms
+       4:999.1 ms
+       5:1353.6 ms
+```
+
 The Immix executables were run without command-line parameters. The results are
 tabulated below and preserve the original measurements, including truncated runs
 and allocation failures.
